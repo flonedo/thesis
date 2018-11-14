@@ -1,0 +1,67 @@
+% !TEX encoding = UTF-8
+% !TEX TS-program = pdflatex
+% !TEX root = ../tesi.tex
+
+%**************************************************************
+\chapter{Deep learning}
+\label{cap:deep-learning}
+%**************************************************************
+
+\intro{In this chapter I will dive deep (no pun intended) in the reasons behind the choice of a deep learning approach to detect custom-class objects in image data.}\\
+
+%**************************************************************
+\section{Overview}
+	\emph{Deep learning} is a part of the broader family of \emph{\gls{machine learning}}\glsfirstoccur methods that focuses on learning features of interest by experiencing them thought data samples. In contrast to \emph{machine learning}, which still needs the problem's layout to be described by a rather complex human-coded algorithm, a \emph{deep learning} model only needs a dataset to autonomously learn from. Thanks to the ever-growing availability of computational power and labeled data, and the relative simplicity in which a network can be trained, the deep learning approach to solve artificial intelligence problems is flourishing, bringing artificial intelligence to everyday life. \\
+	At the core of every \emph{deep learning} model there is an artificial neural network, whose architecture is strongly inspired by the structure and functioning of a biological brain. Basically, an artificial neural network is composed by a variable number of neuron layers densely connected and stacked upon each other, hence the name \emph{deep neural networks} . The information is elaborated by traveling from layer to layer until the top is reached. \\
+
+\section{Deep neural networks}
+	As mentioned above, the \emph{deep learning} approach to solve a problem is to train a \emph{deep neural network} to recognize the wanted features so it can later make predictions about them. Basically when you train a \emph{deep neural network} you feed it thousands of data samples, so it can learn from the wanted data representation by "seeing" it, just like you would show a child pictures of kittens to teach him what a kitten is.
+	There are two different ways to train a network, each one with different goals and contexts of use:
+	\begin{itemize}
+		\item supervised training: the network is given a labeled \emph{\gls{dataset}}\glsfirstoccur to learn from; for each data sample the ground truth is provided, so the network knows what it is learning. This is the preferred approach whenever labeled data is available.
+		\item unsupervised training: the network is given an unlabeled \emph{dataset} to learn from; no ground truth is given, so the network has to identify patterns and divide them into different categories on its own. This approach is preferred when the goal is to group data in categories or when data is too complex to be labeled.
+	\end{itemize}
+	There are different network architectures, each one dedicated to a specific type of problems. When solving  \emph{\gls{computer vision}}\glsfirstoccur task the best performances are held by a class of networks called \emph{convolutional neural networks}.
+	
+	\subsection{Convolutional neural networks}
+	\emph{convolutional neural networks} (CNNs) are \emph{deep neural networks} that consist of an input layer, an output layer, and a variable number of hidden layers with different purposes. What names this family of networks is in fact on particular type of layer, called \emph{convolutional layer}; a single network typically contains various \emph{convolutional layers} of different size, and each perform a \emph{convolution} operation that filters its input stimuli before passing them the to next layer in order to reduce the parameters number, thus allowing the network to be deeper. \\
+	CNNs, among others, are mainly used to perform computer vision tasks; in particular they achieve good results in object detection tasks.
+	
+	\subsection{Object detection}
+	\emph{Object detection} is a computer vision problem that concerns the identification of class instance objects in an image (or video), and locating the actual position of said object in the picture. Commonly the spacial orientation of the detected object is framed by a rectangular \emph{bounding box} that determines its height and width. Thus, object detection is far more powerful than mere image classification, not only because it "draws" a box where the object is located, but also because it can identify multiple object instances in a single image, while classification models have the limit of labeling only the one predominant object in the scene. The capability of labeling and locating multiple instances opens object detection models to a new set of application, such as video surveillance (e.g. moving subjects can be tracked) and instance counting for industrial purposes (e.g. counting boxes in a warehouse). Furthermore, object detection has proven to be more reliable than classification to scan images where the subject of interests occupies only a small part of the picture (e.g. a street sign in the corner). \\
+	Commonly an \emph{object detection} model is actually built on top a classifier, but this exudes the topics of my project; I am introducing this notion only because it is noticeable in the naming convention of model networks, which are indeed important in my work. \\
+	There are three popular network architectures for object detection:
+	\begin{itemize}
+		\item SSD (Single Shot Detection);
+		\item R-CNN (Region-based \emph{convolutional neural network}, and its upgrades Fast R-CNN and Faster R-CNN);
+		\item YOLO (You Only Look Once).
+	\end{itemize}
+While both SSD and YOLO follow the same approach of computing the image data through a single network, R-CNN splits the image in various regions trying to guess where objects of interest might be and processes each area separately, thus requiring more computational power. State-of-the-art models share comparable performances in accuracy, but due to the time overhead of processing a picture multiple time R-CNN is a bit slower than SSD and YOLO.
+
+\subsection{YOLO v3}
+	YOLO\footcite{https://pjreddie.com/darknet/yolo/} is a \emph{convolutional neural network} built on top of Darknet classifier, now on its third version YOLO v3. Both YOLO and Darknet are developed by Joseph Redmon on his C-written open source neural network framework \emph{Darknet}. \\
+	What makes YOLO stand out compared to its competitor is its speed: at par of accuracy YOLO can perform inference in less than half the time, achieving the ability to track moving subjects in real time in 30fps videos using a gaming-tier GPU\footnote{Inference time in the picture is calculated on Nvdia GeForce Titan X GPU.}. \\
+	For my project I was asked to used YOLO in its newest version, YOLO v3. As I already said YOLO is implemented in Joseph Redmon's Darknet framework, which is written in C and is suitable only for research purposes, when I was to develop a production-ready application, so I had to choose another framework to work on and I will discuss about it later.
+	
+\section{Training a network}
+	Training a \emph{convolutional neural network} is a computation-heavy task, that involves the processing of thousands of pieces of data, which in the context of computer vision is in the format of images. Therefore best way to process thousands of images is to use a GPU; using a GPU (or even clusters of GPUs) it is possible to process the images in parallel among the \emph{cores}, speeding up the process greatly. As a comparison, while training on CPU would take days even on a small dataset, on a GPU all the work would be done in just few hours.
+	\subsection{Dataset}
+	The first and most important step to train a network is to create the \emph{dataset} it will learn from. Note that the quality of the dataset itself will have great influence on the final accuracy of the network. For instance you will want to feed your network examples of your objects of interest from every perspective and immerse in their context; also, when training a network to perform an \emph{object detection} task, you want your \emph{bounding boxes} to be as accurate and tight around the figures as possible. \\
+	Clearly, creating a custom dataset is a demanding job, since piece of data must be manually labeled by a human. For my project I was given a custom dataset created by one of my colleagues, containing classes relevant for one of THRON's clients. Creating a \emph{dataset} exudes the goals of my project, since on production it will be possibly performed by clients\footnote{As explained in the introduction, THRON's product is a DAM, which in this context can basically seen as a database of categorized images; with possibly minor changes to data labeling (e.g. introduction of bounding boxes for the objects of interest) and database export, image data can be easily turned into a dataset for computer vision.}. \\
+	When creating an \emph{object detection} \emph{dataset} there are there are two main qualities to determine its goodness:
+	\begin{itemize}
+		\item \emph{Cardinality}, which is the means of the number of labels per image;
+		\item \emph{Density}, which is the cardinality divided by the number of classes.
+	\end{itemize}
+A density too low has negative influence on the final accuracy of the network, because basically you are trying to teach it to recognize a high number of classes, but you're giving it only a few examples for each. On a lesser degree, a cardinality too high has  a negative influence on the final accuracy as well because the examples you are giving are too cluttered with information. Furthermore, when creating your own \emph{dataset}, you might want to insert a similar amount image samples/labels for each class. \\
+After the full dataset is created, it is common practice to divide it into two separate \emph{datasets}: a \emph{training dataset} and a \emph{validation dataset}, with the suggested ratio of 70\% training and 30\% validation. Note that these two \emph{datasets} contain different samples to avoid \emph{\gls{overfitting}}\glsfirstoccur.
+
+	\subsection{Training}
+	Once the dataset is ready and formatted in the network's preferred format\footnote{Depending on the framework, the preferred format changes. To work with YOLO v3 on MXNet data can provided in both RecordIO format or LST + Jpeg format.}, the training process can begin. \\
+	The training process is conceptually simple; as previously stated, teaching a machine to recognize kittens can be compared to showing pictures to a child and pointing at the kitten in them to make him understand what a kitten is. When doing so with a child you only need a few examples, when with a machine you'll probably need a few hundreds. The next step is to check whether the machine truly learned what a kitten is; again this can be roughly compared to checking whether the child truly learned what a kitten is by giving him a picture and asking him to point at the kitten, if there is one. \\
+	Now that we talked about kittens and children we can explore in detail how a machine learns the way a human would.
+	The training process is a loop in which the network is "shown" the \emph{dataset} it should learn from; since a \emph{dataset} is composed by thousands of images, it can't be entirely loaded into memory and must be split in smaller units for processing, called \emph{batches}; in practice maximum \emph{batch} size is determined by your hardware specifics. Your network will be fed all of the training \emph{dataset} \emph{batch} after \emph{batch}. Each loop of computation on the whole training dataset is called an \emph{\gls{epoch}}\glsfirstoccur. To train your network you will want to perform at least a couple of hundreds epochs; this means that to learn the \emph{dataset} your network will go through all of it hundreds of times. 
+
+	\subsection{Validation}	
+	Every fixed epoch number you will always want to check how well your network is increasing its performance; to do so you will perform a validation loop, which means that you will feed the network your validation \emph{dataset} and compare the network's prediction with the ground truth. There are various metrics to calculate a network's accuracy, and the one I used on my project is called \emph{\gls{mean average precision}}\glsfirstoccur (mAP). This metrics uses an \emph{\gls{intersection over union}}\glsfirstoccur (IoU) threshold to determine how well the positives overlap with the ground truth; setting the IoU threshold higher or lower influences the wanted precision at locating objects\footnote{Note that ground truth bounding boxes are hand-drawn by a human so they already come with an error, thus setting the IoU threshold too high could prove to be useless and even counterproductive.}
+	\subsection{Transfer learning}
