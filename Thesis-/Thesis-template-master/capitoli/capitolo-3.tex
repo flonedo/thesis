@@ -3,26 +3,31 @@
 % !TEX root = ../tesi.tex
 
 %**************************************************************
-\chapter{Descrizione dello stage}
-\label{cap:descrizione-stage}
+\chapter{Internship description}
+\label{chap:internship-description}
 %**************************************************************
 
-\intro{Breve introduzione al capitolo}\\
+\intro{My project at THRON S.p.A. was to develop a production-ready application for \emph{object detection} using \emph{YOLO v3}. I was given the responsibility to choose the framework to use, and I coded both the training and inference parts of the application.}\\
 
 %**************************************************************
-\section{Introduzione al progetto}
-
+\section{Project introduction}
+The goal of my project was to develop a production-ready \emph{object detection} application that could be integrated in Thron in the future. Since THRON strongly relies on web services like those provided by \emph{\gls{AWS}}\glsfirstoccur, so it was my job to keep compatibility.
 %**************************************************************
-\section{Analisi preventiva dei rischi}
+\section{Risk analysis}
 
-Durante la fase di analisi iniziale sono stati individuati alcuni possibili rischi a cui si potrà andare incontro.
-Si è quindi proceduto a elaborare delle possibili soluzioni per far fronte a tali rischi.\\
+Every project comes with its risks. Since deep learning is a relatively new field, my project was at high risk from the beginning.\\
 
-\begin{risk}{Performance del simulatore hardware}
-    \riskdescription{le performance del simulatore hardware e la comunicazione con questo potrebbero risultare lenti o non abbastanza buoni da causare il fallimento dei test}
-    \risksolution{coinvolgimento del responsabile a capo del progetto relativo il simulatore hardware}
-    \label{risk:hardware-simulator} 
-\end{risk}
+\begin{center}
+    \begin{tabular}{ | p{5cm} | p{5cm} | p{2cm} |}
+    \hline
+    \textbf{Decription} & \textbf{Solution} & \textbf{Occurrence} \\ \hline
+    \textbf{Stable release} \\ The technology I used is fairly new, so it is not surprising that the main toolkit I used was in version 0.3.0 (version 0.4.0 was released later on my internship). This lead to some inconveniences such as bugs and inconsistencies between documentation and source code. & No real solution was identified. When necessary I submitted issues to the code developers and patched bugs myself when I could. & High \\ \hline
+    \textbf{AWS support}\\ Since the technology I used was fairly new, it relied on the newest version of my framework of choice. During my AWS provided out-of-the-box support only to the previous version of my chosen framework, which isn't compatible with the core toolkit I used. & No real solution was identified. I tried other AWS services, but they are not as straightforward as the one I was supposed to use and proved to be rather troublesome. & High \\ \hline
+    \textbf{Hardware} \\ Deep learning is a demanding technology that requires a lot of computational power. Specifically, it is suggested to execute training on a GPU since it is much faster, but I didn't have one. Training on CPU, on the other hand, is indeed possible, but it requires fairly new hardware, which, during my first week, I didn't have. & Before I was assigned a newer CPU I got to work on a remote AWS machine via SSH. This machine provided a GPU so I could test example algorithms. When given a newer CPU I had to train my network on that, which required a couple of days and thus prevented me from tuning the hyperparameters. & High \\ \hline
+   \textbf{Python} \\ Deep learning frameworks are written almost exclusively in Python. With no prior experience, writing a Python application could prove to be troublesome. & None of my coworkers was a Python expert, but they always helped me to find good libraries and frameworks to use. & Medium \\ \hline
+   \end{tabular}
+\end{center}
+
 
 %**************************************************************
 \section{Requisiti e obiettivi}
