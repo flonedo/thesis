@@ -1,8 +1,14 @@
+\select@language {english}
+\select@language {english}
 \boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
 \defcounter {refsection}{0}\relax 
-\select@language {italian}
+\select@language {english}
 \defcounter {refsection}{0}\relax 
-\select@language {italian}
+\select@language {english}
+\defcounter {refsection}{0}\relax 
+\select@language {english}
+\defcounter {refsection}{0}\relax 
+\select@language {english}
 \defcounter {refsection}{0}\relax 
 \addvspace {10\p@ }
 \defcounter {refsection}{0}\relax 
@@ -22,9 +28,15 @@
 \defcounter {refsection}{0}\relax 
 \addvspace {10\p@ }
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Use Case - UC0: Scenario principale\relax }}{13}{figure.caption.19}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Use Case - UC0: Scenario principale\relax }}{15}{figure.caption.19}
 \defcounter {refsection}{0}\relax 
 \addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Structure of a \emph {*.lst} file containing dataset information.\relax }}{23}{figure.caption.36}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {5.2}{\ignorespaces UML describing the relationship between the server application (App class) and the implementation of its methods.\relax }}{25}{figure.caption.42}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {5.3}{\ignorespaces UML flow chart displaying the HTTP message exchange in the application.\relax }}{28}{figure.caption.46}
 \defcounter {refsection}{0}\relax 
 \addvspace {10\p@ }
 \defcounter {refsection}{0}\relax 

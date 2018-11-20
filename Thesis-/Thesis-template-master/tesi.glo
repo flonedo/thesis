@@ -14,3 +14,24 @@
 \glossaryentry{mean average precision?\glossentry{mean average precision}|setentrycounter[]{page}\glsnumberformat}{9}
 \glossaryentry{intersection over union?\glossentry{intersection over union}|setentrycounter[]{page}\glsnumberformat}{9}
 \glossaryentry{aws?\glossentry{AWS}|setentrycounter[]{page}\glsnumberformat}{11}
+\glossaryentry{gluon cv?\glossentry{Gluon CV}|setentrycounter[]{page}\glsnumberformat}{12}
+\glossaryentry{cuda?\glossentry{CUDA}|setentrycounter[]{page}\glsnumberformat}{12}
+\glossaryentry{cuda?\glossentry{CUDA}|setentrycounter[]{page}\glsnumberformat}{12}
+\glossaryentry{pypi?\glossentry{PyPI}|setentrycounter[]{page}\glsnumberformat}{19}
+\glossaryentry{pip?\glossentry{Pip}|setentrycounter[]{page}\glsnumberformat}{19}
+\glossaryentry{jupyter notebook?\glossentry{Jupyter notebook}|setentrycounter[]{page}\glsnumberformat}{20}
+\glossaryentry{intellij idea?\glossentry{IntelliJ IDEA}|setentrycounter[]{page}\glsnumberformat}{20}
+\glossaryentry{gitlab?\glossentry{GitLab}|setentrycounter[]{page}\glsnumberformat}{20}
+\glossaryentry{docker?\glossentry{Docker}|setentrycounter[]{page}\glsnumberformat}{20}
+\glossaryentry{yaml?\glossentry{YAML}|setentrycounter[]{page}\glsnumberformat}{20}
+\glossaryentry{openapi?\glossentry{OpenAPI}|setentrycounter[]{page}\glsnumberformat}{20}
+\glossaryentry{swagger?\glossentry{Swagger}|setentrycounter[]{page}\glsnumberformat}{20}
+\glossaryentry{flask?\glossentry{Flask}|setentrycounter[]{page}\glsnumberformat}{21}
+\glossaryentry{postman?\glossentry{Postman}|setentrycounter[]{page}\glsnumberformat}{21}
+\glossaryentry{mongodb?\glossentry{MongoDB}|setentrycounter[]{page}\glsnumberformat}{21}
+\glossaryentry{robo 3t?\glossentry{Robo 3T}|setentrycounter[]{page}\glsnumberformat}{21}
+\glossaryentry{sagemaker?\glossentry{SageMaker}|setentrycounter[]{page}\glsnumberformat}{21}
+\glossaryentry{json lines?\glossentry{Json lines file}|setentrycounter[]{page}\glsnumberformat}{21}
+\glossaryentry{restful api?\glossentry{RESTful API}|setentrycounter[]{page}\glsnumberformat}{25}
+\glossaryentry{callback?\glossentry{callback}|setentrycounter[]{page}\glsnumberformat}{26}
+\glossaryentry{polling?\glossentry{polling}|setentrycounter[]{page}\glsnumberformat}{26}

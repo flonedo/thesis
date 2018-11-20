@@ -11,7 +11,7 @@
 
 %**************************************************************
 \section{Project introduction}
-The goal of my project was to develop a production-ready \emph{object detection} application that could be integrated in Thron in the future. Since THRON strongly relies on web services like those provided by \emph{\gls{AWS}}\glsfirstoccur, so it was my job to keep compatibility.
+The goal of my project was to develop a production-ready \emph{object detection} application that could be integrated in Thron in the future. Since THRON strongly relies on web services like those provided by \emph{\gls{AWS}}\textsubscript{g}, so it was my job to keep compatibility.
 %**************************************************************
 \section{Risk analysis}
 
@@ -21,17 +21,58 @@ Every project comes with its risks. Since deep learning is a relatively new fiel
     \begin{tabular}{ | p{5cm} | p{5cm} | p{2cm} |}
     \hline
     \textbf{Decription} & \textbf{Solution} & \textbf{Occurrence} \\ \hline
-    \textbf{Stable release} \\ The technology I used is fairly new, so it is not surprising that the main toolkit I used was in version 0.3.0 (version 0.4.0 was released later on my internship). This lead to some inconveniences such as bugs and inconsistencies between documentation and source code. & No real solution was identified. When necessary I submitted issues to the code developers and patched bugs myself when I could. & High \\ \hline
-    \textbf{AWS support}\\ Since the technology I used was fairly new, it relied on the newest version of my framework of choice. During my AWS provided out-of-the-box support only to the previous version of my chosen framework, which isn't compatible with the core toolkit I used. & No real solution was identified. I tried other AWS services, but they are not as straightforward as the one I was supposed to use and proved to be rather troublesome. & High \\ \hline
-    \textbf{Hardware} \\ Deep learning is a demanding technology that requires a lot of computational power. Specifically, it is suggested to execute training on a GPU since it is much faster, but I didn't have one. Training on CPU, on the other hand, is indeed possible, but it requires fairly new hardware, which, during my first week, I didn't have. & Before I was assigned a newer CPU I got to work on a remote AWS machine via SSH. This machine provided a GPU so I could test example algorithms. When given a newer CPU I had to train my network on that, which required a couple of days and thus prevented me from tuning the hyperparameters. & High \\ \hline
+    \textbf{Stable releases unavailable} \\ The technology I used is fairly new, so it is not surprising that the main toolkit I used, \emph{\gls{Gluon CV}}\textsubscript{g} was actually in pre-release version 0.3.0. This lead to some inconveniences such as bugs and inconsistencies between build and documented source code. & No real solution was identified. When necessary I submitted issues to the code developers and patched bugs myself when I could. & High \\ \hline
+    \textbf{AWS support}\\ Since the technology I used was fairly new, it relied on the newest version of my framework of choice \emph{MXNet} 1.3.0. During my internship, AWS provided out-of-the-box support only to \emph{MXNet} 1.2.1 and prior, which isn't compatible with \emph{Gluon CV} 0.3.0. & No real solution was identified. I tried other AWS services, but they are not as straightforward as the one I was supposed to use and proved to be rather troublesome. & High \\ \hline
+    \textbf{Hardware} \\ Deep learning is a demanding technology that requires a lot of computational power. Specifically, it is suggested to execute training on a \emph{\gls{CUDA}}\textsubscript{g} GPU since it is much faster, but I didn't have one. Training on CPU, on the other hand, is indeed possible, but it requires fairly new hardware to run at all, which, during my first week, I didn't have. & Before I was assigned a newer CPU I got to work on a remote AWS machine via SSH. This machine provided a GPU so I could test example algorithms. When given a newer CPU I had to train my network on that, which required a couple of days and thus prevented me from tuning the hyperparameters. & High \\ \hline
    \textbf{Python} \\ Deep learning frameworks are written almost exclusively in Python. With no prior experience, writing a Python application could prove to be troublesome. & None of my coworkers was a Python expert, but they always helped me to find good libraries and frameworks to use. & Medium \\ \hline
    \end{tabular}
 \end{center}
 
 
 %**************************************************************
-\section{Requisiti e obiettivi}
+\section{Goals and requirements}
+Requirements are categorized with the following criteria:
+\begin{itemize}
+	\item MUST, the functionality is absolutely required;
+	\item SHOULD, the functionality is recommended;
+	\item MAY, the functionality is optional.
+\end{itemize}
+Due to the nature of the project, whose purpose was to explore a new technology and determine the possibility of deploying an application in a production environment, requirements and goals changed along the way. In fact, some requirements proved impossible to be satisfied because of the unavailability of tools and services supporting them yet.
 
+\begin{itemize}
+	\item Required:
+	\begin{itemize}
+		\item MUST 01: development of a training function;
+		\item MUST 02: integration with Thron APIs;
+	\end{itemize}
+	\item Recommended:
+	\begin{itemize}
+		\item SHOULD 01: development of a prototype user interface;
+	\end{itemize}
+	\item optional:
+	\begin{itemize}
+		\item MAY 01: development of unit tests;
+		\item MAY 02: extraction of metrics to evaluate the algorithm's performance;
+		\item MAY 03: training process automation;
+		\item MAY 04: integration of the prototype to product.
+	\end{itemize}
+\end{itemize}
 
 %**************************************************************
-\section{Pianificazione}
+\section{Schedule}
+Schedule is organized to follow the initial requirements; however, as already explained, these changed along the way influencing the schedule as well.
+
+\begin{center}
+    \begin{tabular}{ | p{3cm} | p{9cm} |}
+    \hline
+    \textbf{Assigned hours} & \textbf{Activity} \\ \hline
+    8 & Functional requirements analysis \\ \hline
+    8 & Study of existing documentation \\ \hline
+    16 & Training on the current image feature extraction system \\ \hline
+    16 & Architecture design \\ \hline
+    16 & UI design \\ \hline
+    160 & Back end development \\ \hline
+    80 & Front end development \\ \hline
+		16 & Documentation \\ \hline
+   \end{tabular}
+\end{center}

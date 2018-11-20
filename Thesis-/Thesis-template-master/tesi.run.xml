@@ -58,7 +58,6 @@
       <file>verbose-ibid.bbx</file>
       <file>verbose-ibid.cbx</file>
       <file>biblatex.cfg</file>
-      <file>italian.lbx</file>
       <file>english.lbx</file>
     </requires>
   </internal>
