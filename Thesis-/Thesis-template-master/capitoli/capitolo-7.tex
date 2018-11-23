@@ -3,18 +3,91 @@
 % !TEX root = ../tesi.tex
 
 %**************************************************************
-\chapter{Conclusioni}
-\label{cap:conclusioni}
+\chapter{Conclusion}
+\label{cap:conclusion}
 %**************************************************************
 
 %**************************************************************
-\section{Consuntivo finale}
+\section{Final balance}
+As initially decided, my internship lasted for 320 in total. The work schedule, however, did suffer from major changes
+as the implementation of some requirements needed more time that estimated.
+
+\begin{center}
+\begin{table}
+\caption{Final balance.}
+    \begin{tabular}{ | p{3cm} | p{9cm} |}
+    \hline
+    \textbf{Required hours} & \textbf{Activity} \\ \hline
+    10 & Functional requirements analysis \\ \hline
+    34 & Study of existing documentation \\ \hline
+    26 & Training on the current image feature extraction system \\ \hline
+    16 & Architecture design \\ \hline
+    0 & UI design \\ \hline
+    210 & Back end development \\ \hline
+    0 & Front end development \\ \hline
+		16 & Documentation \\ \hline
+		8 & Keynote \\ \hline
+   \end{tabular}
+\end{table}
+\end{center}
+
+
 
 %**************************************************************
-\section{Raggiungimento degli obiettivi}
+\section{Achieved goals}
+In this section I will track the project requirements, stating whether they were implemented and the occurred issues.
+
+\subsection{MUST 01: development of a training function}
+\textbf{Implemented}. I coded a standalone \emph{Python} training script on \emph{MXNet} framework with \emph{Gluon CV}. The network architecture I used is \emph{YOLO v3} as required at the beginning of my internship. \\
+During development I incurred in the following issues:
+\begin{itemize}
+	\item \textbf{Hardware requirements (1):} \emph{MXNet} relies on newer CPU instructions, available only on fairly recent hardware. Despite it being a quite average machine, I could not execute \emph{MXNet} on the PC I was assigned at the beginning of my internship. Before I was given a newer one I worked on a remote machine on \emph{AWS} via SSH.
+	\item \textbf{Hardware requirements (2):} training a network requires a lot of computational power, as it consists of thousands of matrix operations. Since these operations can be executed in parallel, GPUs, which are indeed optimized to execute matrix operations on their thousands of cores, are the best way to speed up training. Unfortunately my machine didn't have a GPU, so I had to work with the long times and downsides of CPU training;
+	\item \textbf{Framework compatibility:} \emph{YOLO v3} is implemented in \emph{Gluon CV} version 3.x.x and later, which requires \emph{MXNet} version 1.3.x and above. While I started my internship on 3rd September, the stable release of \emph{MXNet} version 1.3.0 came out on 14th September, while \emph{GluonCV} version 0.3.0 came out on 16th October. Thus I could not deploy my training script on \emph{AWS SageMaker} as the framework version I needed wasn't supported yet;
+	\item \textbf{Nightly builds and bugs:} both the framework and the toolkit are extremely new, with \emph{Gluon CV} still being on 0-version, and I often had to work with nightly builds. The major downside of this is that the online documentation and provided source code didn't always match with the content of the build, so sometimes the functionality I needed didn't actually exist yet; when working with \emph{Gluon CV} I was actually forced to implement some functionality myself\footnote{What I actually did was to copy-paste the provided source code into a module I declared.}. Furthermore, the toolkit code contained a few bugs, one of which was contained on release version \emph{Gluon CV} 3.0.0; I sent an issue to fix it, but after it was fixed I was limited on using nightly builds as release 0.4.0 wasn't out yet; 
+	\item \textbf{Documentation:} documentation provided by both the framework and the toolkit I used wasn't always clear in regards of the input and output of functions (e.g. image size, matrix dimension); hence, I had to find for myself the right formats through a trial and error process while developing.
+\end{itemize}
+
+\subsection{Integration with Thron APIs}
+\textbf{Implemented}. I coded a Python server to manage the inference requests. I did not implement the consumer, which would basically be an infinite loop that executes prediction of batches of images loaded from a queue, as it would finally reside on some \emph{AWS} service and therefore would not be interesting to have locally; I did however provide the method it should use to perform inference. \\
+I wrote my inference application with the API-first approach and following the \emph{REST} standard. As of currently Thron isn't fully RESTful, but I was asked to strictly adhere to the standard. Furthermore, my project is structured following the standard used in Thron APIs.
+During development I incurred in the following issues:
+\begin{itemize}
+	\item \textbf{Framework compatibility:} see above development of a training function issues;
+	\item \textbf{Nightly builds and bugs:} see above development of a training function issues;
+	\item \textbf{Documentation:} see above development of a training function issues.
+\end{itemize}
+
+\subsection{SHOULD 01: development of a prototype user interface}
+\textbf{Not implemented}. I did not develop a prototype user interface; we discussed about it during the development and we decided that focusing on the back end application would be more meaningful given the project nature.
+
+\subsection{MAY 01: development of unit tests}
+\textbf{Implemented}. I wrote unit tests for both the jobs queue management operations and the inference methods in my server application. \\
+No particular issue occurred.
+
+\subsection{MAY 02: extraction of metrics to evaluate the algorithm's performance}
+\textbf{Not implemented}.
+
+\subsection{MAY 03: training process automation}
+\textbf{Not implemented}.\footnote{I actually did work on this requirement, but with scarce success.} Thron often relies on \emph{AWS} services to perform computation, so I was asked to try \emph{SageMaker}. As I introduced in chapter five, there are two ways to run custom code on \emph{SageMaker}. The easiest and preferred approach was to run my \emph{training} script on one of \emph{Amazon SageMaker}'s pre-made \emph{Docker} container, but I needed one providing \emph{MXNet} framework version 1.3.0, which wasn't available yet. \\
+I built a custom \emph{Docker} container containing my script, but I couldn't make it run on \emph{SageMaker}.
+I incurred in the following issues that prevented me from implementing this requirement:
+\begin{itemize}
+	\item \textbf{MXNet supported version:} At the time of my internship \emph{SageMaker} provided \emph{MXNet} up to version 1.2.1, but I needed version 1.3.0;
+	\item \textbf{Dependencies}: \emph{SageMaker} doesn't provide a way to install dependencies on their \emph{MXNet} containers\footnote{On \emph{TensorFlow} containers you can install dependencies, so hopefully the feature will be implemented for \emph{MXNet} as well.}, so I couldn't even install \emph{Gluon CV};
+	\item \textbf{Documentation:} Documentation about both pre-made containers and custom containers isn't always clear; in fact, the required structure for custom containers isn't stated at all, so the service would refuse to run \emph{Docker} containers that work fine locally, making debugging a frustrating trial-and-error experience.
+\end{itemize}
+Because of these issues and my Tutor's busy schedule, I didn't manage to fulfill training automation.
+
+\subsection{MAY 04: integration of the prototype to product}
+\textbf{Not implemented}.
+%**************************************************************
+\section{Acquired skills and knowledge}
+My internship at THRON was both my first working experience and my first approach to \emph{deep learning}, so I learned a lot of things.
+First of all I finally know what \emph{deep learning} is about, and I'm actually impressed that thanks to frameworks like \emph{MXNet} I could train a \emph{deep neural network} without prior knowledge on the topic. \\
+Most of the technologies I used in my project were completely new to me, so I also had the opportunity to acquire new practical skills; I learned \emph{Python}, which is the predominant language in the \emph{machine learning} field, I wrote my first \emph{OpenAPIs} and I created my first \emph{MongoDB} database. I used \emph{Docker} for the first time and now I can't even imagine working without it, and finally I wrote my first \emph{Markdown} documentation to help my co-workers who will continue the development of the \emph{object detection} application.
 
 %**************************************************************
-\section{Conoscenze acquisite}
-
-%**************************************************************
-\section{Valutazione personale}
+\section{Comments}
+I am satisfied with what I learned during my internship. I had the opportunity to experiment in a fast-growing field, and accordingly to the available tools I was able to create the core of a working product. \\
+People at THRON are really nice and I made some new friends.

@@ -8,13 +8,11 @@
 \defcounter {refsection}{0}\relax 
 \select@language {english}
 \defcounter {refsection}{0}\relax 
-\select@language {english}
-\defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {1.1}THRON}{1}{section.1.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {1.2}Birth of the project}{1}{section.1.2}
+\contentsline {section}{\numberline {1.2}Birth of the project}{2}{section.1.2}
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {1.3}Content organization}{2}{section.1.3}
 \defcounter {refsection}{0}\relax 
@@ -30,7 +28,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.2.3}YOLO v3}{6}{subsection.2.2.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Structure}{7}{section*.17}
+\contentsline {subsubsection}{Structure}{7}{section*.18}
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {2.3}Training a network}{7}{section.2.3}
 \defcounter {refsection}{0}\relax 
@@ -44,72 +42,96 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.3.5}Hyperparameters}{10}{subsection.2.3.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.4}Object detection for THRON}{10}{section.2.4}
+\contentsline {section}{\numberline {2.4}Object detection for THRON}{11}{section.2.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {3}Internship description}{11}{chapter.3}
+\contentsline {chapter}{\numberline {3}Internship description}{13}{chapter.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.1}Project introduction}{11}{section.3.1}
+\contentsline {section}{\numberline {3.1}Project introduction}{13}{section.3.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.2}Risk analysis}{11}{section.3.2}
+\contentsline {section}{\numberline {3.2}Risk analysis}{13}{section.3.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.3}Goals and requirements}{12}{section.3.3}
+\contentsline {section}{\numberline {3.3}Goals and requirements}{13}{section.3.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.4}Schedule}{13}{section.3.4}
+\contentsline {section}{\numberline {3.4}Schedule}{15}{section.3.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {4}Analisi dei requisiti}{15}{chapter.4}
+\contentsline {section}{\numberline {3.5}Future development}{15}{section.3.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.1}Casi d'uso}{15}{section.4.1}
+\contentsline {chapter}{\numberline {4}Design and development}{17}{chapter.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.2}Tracciamento dei requisiti}{16}{section.4.2}
+\contentsline {section}{\numberline {4.1}Technology and tools}{17}{section.4.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Design and development}{19}{chapter.5}
+\contentsline {section}{\numberline {4.2}Design}{19}{section.4.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.1}Technology and tools}{19}{section.5.1}
+\contentsline {subsection}{\numberline {4.2.1}Overview}{19}{subsection.4.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.2}Design}{21}{section.5.2}
+\contentsline {subsection}{\numberline {4.2.2}Dataset creation}{20}{subsection.4.2.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.2.1}Overview}{21}{subsection.5.2.1}
+\contentsline {subsubsection}{Format choice}{20}{section*.35}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.2.2}Dataset creation}{22}{subsection.5.2.2}
+\contentsline {subsubsection}{Dataset creation approach}{20}{section*.37}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Format choice}{22}{section*.35}
+\contentsline {subsection}{\numberline {4.2.3}Training}{20}{subsection.4.2.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Dataset creation approach}{22}{section*.37}
+\contentsline {subsubsection}{Hyperparameters}{22}{section*.38}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.2.3}Training}{22}{subsection.5.2.3}
+\contentsline {subsubsection}{Model export}{22}{section*.39}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Hyperparameters}{24}{section*.38}
+\contentsline {subsubsection}{Resume training}{23}{section*.40}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Model export}{24}{section*.39}
+\contentsline {subsubsection}{AWS SageMaker}{23}{section*.41}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Resume training}{25}{section*.40}
+\contentsline {subsection}{\numberline {4.2.4}Inference service}{23}{subsection.4.2.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.2.4}Inference service}{25}{subsection.5.2.4}
+\contentsline {subsubsection}{RESTful Architecture}{23}{section*.43}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{RESTful Architecture}{25}{section*.41}
+\contentsline {subsubsection}{Asynchronous computation}{25}{section*.45}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Asynchronous computation}{26}{section*.43}
+\contentsline {subsubsection}{Queue}{26}{section*.46}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Queue}{26}{section*.44}
+\contentsline {subsubsection}{Inference work flow}{26}{section*.47}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Inference work flow}{26}{section*.45}
+\contentsline {subsection}{\numberline {4.2.5}Standalone inference script}{26}{subsection.4.2.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Unit test}{27}{section*.47}
+\contentsline {chapter}{\numberline {5}Tests and validation}{29}{chapter.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.2.5}Standalone inference script}{27}{subsection.5.2.5}
+\contentsline {section}{\numberline {5.1}Unit tests}{29}{section.5.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {6}Verifica e validazione}{29}{chapter.6}
+\contentsline {subsection}{\numberline {5.1.1}Training script}{29}{subsection.5.1.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {7}Conclusioni}{31}{chapter.7}
+\contentsline {subsection}{\numberline {5.1.2}Inference service}{29}{subsection.5.1.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7.1}Consuntivo finale}{31}{section.7.1}
+\contentsline {section}{\numberline {5.2}Keynote}{30}{section.5.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7.2}Raggiungimento degli obiettivi}{31}{section.7.2}
+\contentsline {chapter}{\numberline {6}Conclusion}{31}{chapter.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7.3}Conoscenze acquisite}{31}{section.7.3}
+\contentsline {section}{\numberline {6.1}Final balance}{31}{section.6.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7.4}Valutazione personale}{31}{section.7.4}
+\contentsline {section}{\numberline {6.2}Achieved goals}{31}{section.6.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {A}Appendice A}{33}{appendix.A}
+\contentsline {subsection}{\numberline {6.2.1}MUST 01: development of a training function}{31}{subsection.6.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{Bibliografia}{37}{appendix*.48}
+\contentsline {subsection}{\numberline {6.2.2}Integration with Thron APIs}{32}{subsection.6.2.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {6.2.3}SHOULD 01: development of a prototype user interface}{33}{subsection.6.2.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {6.2.4}MAY 01: development of unit tests}{33}{subsection.6.2.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {6.2.5}MAY 02: extraction of metrics to evaluate the algorithm's performance}{33}{subsection.6.2.5}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {6.2.6}MAY 03: training process automation}{33}{subsection.6.2.6}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {6.2.7}MAY 04: integration of the prototype to product}{33}{subsection.6.2.7}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {6.3}Acquired skills and knowledge}{34}{section.6.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {6.4}Comments}{34}{section.6.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {A}Training a YOLO v3 network}{35}{appendix.A}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {A.1}Overview}{35}{section.A.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {A.2}Training}{36}{section.A.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{Glossary}{39}{section*.50}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{Bibliografia}{43}{appendix*.55}

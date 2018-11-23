@@ -3,6 +3,22 @@
 % !TEX root = ../tesi.tex
 
 %**************************************************************
-\chapter{Verifica e validazione}
-\label{cap:verifica-validazione}
+\chapter{Tests and validation}
+\label{cap:test-validation}
 %**************************************************************
+
+\section{Unit tests}
+Due to the nature of the project it wasn't always possible to write useful \emph{unit tests} to check my code; however I did write tests whenever it was possible.
+
+\subsection{Training script}
+Due to its nature, it wasn't possible to write useful units tests to check my \emph{training} script worked properly. Apart from the fact that while running on CPU the script required a couple of days to terminate, its output was a trained network model and its weight in binary format, whose correctness can't be tested aside from performing inference from them and confront the results to the ground truth. As I previously explained, trained models must be tested with new data, which isn't contained in the \emph{training/validation} dataset; this means that the test images are unlabeled data, thus the problem to manually label them. I found printing the detected classes and their \emph{bounding boxes} on a copy of the input image to be the easiest and fastest way to check whether the predictions where correct, as ground truth for \emph{computer vision} tasks must still be determined by a human. \\
+To manually test whether my trained model produced correct detection, I wrote a standalone \emph{Python} script, heavily based on the script provided by \emph{Gluon CV}. \\
+Furthermore, since both my \emph{training} and \emph{inference} scripts heavily relied on \emph{Gluon CV} code with minor changes, I could assume that to a certain degree they were correct.
+
+\subsection{Inference service}
+I wrote unit tests that cover both the methods provided by the \emph{JobOpsMongo} module and the \emph{PredictionOpsMxnet} modules. \\
+While the \emph{JobOpsMongo} module was actually used by the application and I tried its functionality by sending HTTP requests via \emph{Postman} as well, the \emph{PredictionOpsMxnet} module methods have only been called by its unit tests. In fact, the \emph{PredictionOpsMxnet} module provides the inference methods that the consumer should use, but I did not implement it because it should potentially run on \emph{AWS} and therefore requires specific coding. \\
+When writing unit tests my approach was to define a \emph{spec} module for the code I wanted to test; then, in the \emph{spec} module I wrote functions that called the method they were supposed to test and checked whether the expected outcome would occur.
+
+\section{Keynote}
+On my last day of internship I was asked to perform a short lecture to explain what my project was about. With the aid of slides, after a brief introduction on \emph{object detection} and its applications, I showcased the technologies I used, pointing out their pros and cons. \\

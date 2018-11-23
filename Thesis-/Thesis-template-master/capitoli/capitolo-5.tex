@@ -75,7 +75,7 @@ In this section I will cover the design choices I made while developing my appli
 
 \subsection{Overview}
 As stated before, THRON'S \emph{DAM} categorizes images inserted by the clients to make their access easier. Details about how these images are stored in a non-relational database are irrelevant for my project, and I actually do not know them. However, how a database export is structured and what it contains do is important and had major influence in some implementation choices. \\
-A database export is a  \emph{\gls{Json lines file}}\textsubscript{g} where each line represent a valid Json file containing information about an image in the database; the covered fields are the following:
+A database export is a  \emph{\gls{JSON lines file}}\textsubscript{g} where each line represent a valid JSON file containing information about an image in the database; the covered fields are the following:
 \begin{itemize}
 	\item ID: image unique identifier;
 	\item Client ID: client identifier\footnote{Thron has several clients and often uses client ID based sharding techniques to run services in order to guarantee various levels of fairness.}; the goal is to construct a custom dataset for detection for each client's needs so this parameter is vital;
@@ -106,19 +106,20 @@ To train the network model for my prototype I was given a dataset created by one
 The record file format allows faster training, but I chose to use the \emph{*.lst} file format instead because it allows you to work directly from raw images without prior computation. There are two main reason behind my choice:
 \begin{enumerate}
 	\item The production training process should run on \emph{AWS SageMaker}, which reads input data from an \emph{Amazon S3}; Thron already uses \emph{S3} so uploading the training on a dedicated bucket on there would be the easiest approach;
-	\item In production environment the datasets should be created from \emph{Json lines file} database exports, so simply converting the \emph{Json lines} content describing the bounding boxes for each image to an \emph{*.lst} would be the easiest and fastest approach.
+	\item In production environment the datasets should be created from \emph{JSON lines file} database exports, so simply converting the \emph{JSON lines} content describing the bounding boxes for each image to an \emph{*.lst} would be the easiest and fastest approach.
 \end{enumerate}
 
 
 
 \subsubsection{Dataset creation approach}
-The dataset-creation module I designed takes a \emph{Json lines} database export file as its input and creates a \emph{*.lst} for each \emph{client ID} found in the \emph{Json lines}. The module also provides a function to split the dataset into \emph{training dataset} and \emph{validation dataset} after creation and saves an additional text file containing statistics about the dataset\footnote{These statistics include number of images, number of classes, cardinality and density.}. I chose to keep the creation of the full dataset and splitting it separated, as it is common practice to split the dataset right before training. \\
+The dataset-creation module I designed takes a \emph{JSON lines} database export file as its input and creates a \emph{*.lst} for each \emph{client ID} found in the \emph{JSON lines}. The module also provides a function to split the dataset into \emph{training dataset} and \emph{validation dataset} after creation and saves an additional text file containing statistics about the dataset\footnote{These statistics include number of images, number of classes, cardinality and density.}. I chose to keep the creation of the full dataset and splitting it separated, as it is common practice to split the dataset right before training. \\
 To track the class names with their numerical encoding used in the \emph{*.lst} dataset a \emph{*.txt} calles \emph{synset.txt} is used. This file must be created manually.
 
 
 \subsection{Training}
-Model training for my \emph{YOLO v3} network can be executed as a stand-alone \emph{Python} script. This file receives as an input the \emph{training} and \emph{validation} datasets in \emph{*.lst} format and the \emph{synset.txt} file. \\
-My script actually performs \emph{transfer learning} instead of training from scratch due to the better performances achievable this way; the base network is a YOLO v3 Darknet53\footnote{YOLO v3 convolutional neural network built on top of a Darket classifier composed by 53 layers} pre-trained on the \emph{VOC} dataset; the \emph{VOC} weights are provided by the \emph{Gluon CV} toolkit and should cover classes general enough to prove useful in most cases.
+Model training for my \emph{YOLO v3} network can be executed as a stand-alone \emph{Python} script, which is heavily based on the suggested \emph{training} script provided by the \emph{Gluon CV} toolkit. This script receives as an input the \emph{training} and \emph{validation} datasets in \emph{*.lst} format and the \emph{synset.txt} file. \\
+My script actually performs \emph{transfer learning} instead of training from scratch due to the better performances achievable this way; the base network used is a YOLO v3 Darknet53\footnote{YOLO v3 convolutional neural network built on top of a Darket classifier composed by 53 layers} pre-trained on the \emph{VOC} dataset; the \emph{VOC} weights are provided by the \emph{Gluon CV} toolkit and should cover classes general enough to prove useful in most cases. \\
+The training process is composed by both \emph{training} and \emph{validation} loops, and I chose to perform \emph{validation} after every epoch; this behavior can be easily changed by setting the provided input arguments. As for evaluation metric, I used the \emph{mAP} metric in its version used for the \emph{Pascal VOC challenge}\footnote{Object detection challenge on the \emph{VOC} dataset; it used a \emph{IoU} threshold of 0.5 for evaluation.}.
 
 \subsubsection{Hyperparameters}
 My scripts accepts arguments to tune the training \emph{hyperparameters}. Follows the hyperparameters list and their description:
@@ -140,7 +141,7 @@ My scripts accepts arguments to tune the training \emph{hyperparameters}. Follow
 There are two ways to export a trained (or partially trained) network:
 \begin{itemize}
 	\item Saving weights: it is possible to set the network weights as a \emph{*.PARAMS} binary file every set epoch; this type of file is mostly used as a training checkpoint to resume training from later.
-	\item Network export: it is possible to set an export epoch where both the network architecture with adjusted top layers and its weights are exported. The network itself is saved as a \emph{*.json} file describing its layers while the weights are saved as a \emph{*.PARAMS} similar to the checkpoint file. These files are coupled and must be used together to load the trained network; this export approach is used when you want to save a model to use for inference, as it can be loaded from different languages other that \emph{Python}.
+	\item Network export: it is possible to set an export epoch where both the network architecture with adjusted top layers and its weights are exported. The network itself is saved as a \emph{*.JSON} file describing its layers while the weights are saved as a \emph{*.PARAMS} similar to the checkpoint file. These files are coupled and must be used together to load the trained network; this export approach is used when you want to save a model to use for inference, as it can be loaded from different languages other that \emph{Python}.
 \end{itemize}
 
 \subsubsection{Resume training}
@@ -149,13 +150,29 @@ Since training demands a lot of computational power, it is useful to be able to 
 	\item Resume: path to the \emph{*.PARAMS} binary file containing the training checkpoint;
 	\item Start epoch: epoch where training should be resumed.
 \end{itemize}
-It is important to load a checkpoint \emph{*.PARAMS} binary file to resume training as the model export \emph{*.PARAMS} binary file cannot be loaded without its paired \emph{*.json}.
+It is important to load a checkpoint \emph{*.PARAMS} binary file to resume training as the model export \emph{*.PARAMS} binary file cannot be loaded without its paired \emph{*.JSON}.
+
+\subsubsection{AWS SageMaker}
+AWS provides a service called \emph{SageMaker} for production deployment of \emph{deep learning} applications. There are three ways to deploy on \emph{AWS}:
+\begin{enumerate}
+	\item You can use one the pre-made inference services, which is the easiest approach but has evident limitations;
+	\item If your algorithm runs on a supported framework, such as \emph{MXNet}, \emph{TensorFlow}, \emph{Pytorch} etc. you can submit it with minor changes and \emph{AWS} will run it inside a \emph{Docker} container; this approach proved to be troublesome when a specific version of the frameworks and additional dependencies are required;
+	\item You can submit your own \emph{Docker} container with your algorithm for \emph{AWS} to run; this approach proved to be troublesome as the \emph{Docker} container requirements to be run on \emph{AWS} aren't clearly explained.
+\end{enumerate}
+My initial goal was to run my \emph{training} script with the second approach, but I couldn't do I because of the reasons I will explain in chapter seven. Thus, I tried the third approach, writing my own \emph{Docker image} containing my code and loading it to \emph{SageMaker}, but all of my attempts to run training this way failed; I will explain the reasons for this in chapter seven as well.
 
 \subsection{Inference service}
 While training usually requires GPU power to speed up the process, inference can be reasonably done on CPU, so I decided to keep my training script and my inference script separated.
 
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=\textwidth]{immagini/pictures/app.png} 
+\caption{Schematic representation of my application architecture. \emph{Clients} send HTTP requests to the \emph{inference request API}, which inserts them in a \emph{jobs queue} to be processed asynchronously. The \emph{consumer} picks up batches of jobs sharded by client ID and loads the correspondent model from the model storage. The \emph{training}, who potentially resides on AWS, periodically updates the models.}
+\end{center}
+\end{figure}
+
 \subsubsection{RESTful Architecture}
-My inference request server uses a\emph{\gls{RESTful API}}\textsubscript{g} architecture that I designed using the API first approach; specifically, I wrote my \emph{OpenAPIs} using the \emph{Swagger}. To implement my APIs I took advantage of \emph{Zalando}'s \emph{Connexion}, a framework based on \emph{Flask} that tracks the operations declared in the OpenAPI to the application, validates the HTTP request exchange by comparing the actual Json content to what is declared in the API and manages error messages\footnote{Since I used \emph{Connexion} instead of a pure \emph{Flask} server application I couldn't override the standard HTTP error messages}. \\
+My inference request server uses a\emph{\gls{RESTful API}}\textsubscript{g} architecture that I designed using the API first approach; specifically, I wrote my \emph{OpenAPIs} using the \emph{Swagger}. To implement my APIs I took advantage of \emph{Zalando}'s \emph{Connexion}, a framework based on \emph{Flask} that tracks the operations declared in the OpenAPI to the application, validates the HTTP request exchange by comparing the actual JSON content to what is declared in the API and manages error messages\footnote{Since I used \emph{Connexion} instead of a pure \emph{Flask} server application I couldn't override the standard HTTP error messages}. \\
 To increase decoupling I kept my server interface separated from its implementation; in fact operations are declared in a \emph{JobOpsMongo} module called by the server interface via a \emph{JobService} module. I followed this decoupling approach for both \emph{MongoDB} related operations and \emph{MXNet} inference related operations, but the latter aren't directly called by the inference request server but are used by a queue consumer I did not implement and that potentially resides on AWS.
 
 \begin{figure}[htbp]
@@ -166,19 +183,19 @@ To increase decoupling I kept my server interface separated from its implementat
 \end{figure}
 
 Basically the server's job is to accept and manage inference requests by inserting them into a \emph{MongoDB} queue; from there a consumer will dequeue them and run the actutal inference. \\
-HTTP requests work with \emph{Json} objects which, despite \emph{Connexion}'s automatic conversion into \emph{Python} dictionaries, still require tedious syntax to access their fields. On the other hand \emph{MongoDM} indexes its content in \emph{Json} format.
-Since working with different formats of data would unnecessarily increase the application's complexity, I found it useful to model \emph{Python} class objects to reflect what was declared in the \emph{OpenAPI} and use them to work within the logic modules. My approach while designing these classes was to roughly follow the structure I declared in the OpenAPI, adding further information that could be useful inside the application, and to provide object creation, serialization\footnote{From \emph{Python} object to \emph{Json}} and deserialization \footnote{From \emph{Json} to \emph{Python} objects.} methods to quickly convert between  \emph{Python} objects, \emph{Python} dictionaries and \emph{Json}s as needed. \\
+HTTP requests work with \emph{JSON} objects which, despite \emph{Connexion}'s automatic conversion into \emph{Python} dictionaries, still require tedious syntax to access their fields. On the other hand \emph{MongoDM} indexes its content in \emph{JSON} format.
+Since working with different formats of data would unnecessarily increase the application's complexity, I found it useful to model \emph{Python} class objects to reflect what was declared in the \emph{OpenAPI} and use them to work within the logic modules. My approach while designing these classes was to roughly follow the structure I declared in the OpenAPI, adding further information that could be useful inside the application, and to provide object creation, serialization\footnote{From \emph{Python} object to \emph{JSON}} and deserialization \footnote{From \emph{JSON} to \emph{Python} objects.} methods to quickly convert between  \emph{Python} objects, \emph{Python} dictionaries and \emph{JSON}s as needed. \\
 
 \subsubsection{Asynchronous computation}
 While inference isn't to heavy on the computational side of the task, performing a prediction requires the trained network model to be loaded into memory and, since each model occupies over 250MBs of space, it is obvious that constantly switching from model to model would make the performance fall. The easiest solution to this problem is to perform inference by sharding the requests by client ID, so each batch of images runs on the same network model. A further advantage of client ID sharding is that it allows guarantee different levels of fairness accordingly to each client's service contract. \\
 Since computation is obviously performed asynchronously, a client needs a way to retrieve its inference once it's completed. There are two main options to manage this: \emph{\gls{callback}s}\textsubscript{g} and \emph{\gls{polling}}\textsubscript{g}. I chose the latter because it comes more natural when working in a \emph{RESTful} environment, as after having inserted the new job in the queue the server can simply send a HTTP 202 Accepted response containing the address to check for the requested resource.
 
 \subsubsection{Queue}
-I modeled the queue on \emph{MongoDB}, as it provides an easy way to sort the elements in its collections by insertion time. Furthermore, contents in \emph{MongoDB} are represented as \emph{Json} objects, so it proved to be convenient to work with the objects I declared in the \emph{OpenAPI}. \\
+I modeled the queue on \emph{MongoDB}, as it provides an easy way to sort the elements in its collections by insertion time. Furthermore, contents in \emph{MongoDB} are represented as \emph{JSON} objects, so it proved to be convenient to work with the objects I declared in the \emph{OpenAPI}. \\
 The jobs queue is accessed by both my inference request server and a consumer, but I did not implement the latter.
 
 \subsubsection{Inference work flow}
-When a client needs an image to be inferred, it sends the server a HTTP Post request containing a \emph{Json} stating the URL to the image and a client ID; upon receiving the request the server creates a new inference request job and inserts it in a \emph{MongoDB} queue. If the insertion was successful, the server sends the client a HTTP 202 Accepted response, containing the URL where to check for the requested prediction; since computation runs asynchronously, the client might have to check several times for its requested inference result before it's actually available. \\
+When a client needs an image to be inferred, it sends the server a HTTP Post request containing a \emph{JSON} stating the URL to the image and a client ID; upon receiving the request the server creates a new inference request job and inserts it in a \emph{MongoDB} queue. If the insertion was successful, the server sends the client a HTTP 202 Accepted response, containing the URL where to check for the requested prediction; since computation runs asynchronously, the client might have to check several times for its requested inference result before it's actually available. \\
 When the prediction is ready, the client can retrieve it from the given URL; inference contains the detected object classes, their confidence score\footnote{How much the network is confident the detected object belongs to the stated class; a higher score means higher confidence.} and their \emph{bounding boxes}, expressed in percentage on the image's size. \\
 Predictions are executed by I consumer I did not implement.
 
@@ -189,13 +206,8 @@ Predictions are executed by I consumer I did not implement.
 \end{center}
 \end{figure}
 
-
-\subsubsection{Unit test}
-I wrote unit tests that cover both the methods provided by the \emph{JobOpsMongo} module and the \emph{PredictionOpsMxnet} modules. 
-While the \emph{JobOpsMongo} module was actually used by the application and I tried its functionality by sending HTTP requests via \emph{Postman} as well, the \emph{PredictionOpsMxnet} module has only been used by its unit tests. In fact, the \emph{PredictionOpsMxnet} module provides the inference methods that the consumer should use, but I did not implement it because it should potentially run on \emph{AWS} and therefore requires specific coding.
-
 \subsection{Standalone inference script}
-Before designing and developing the inference request server application, I wrote a \emph{Python} standalone script to perform inference on an image. This script takes the image path and the network model to use as arguments, and then run inference. The result is composed by the classes of the detected objects, their \emph{bounding boxes} and their confidence score; furthermore the inference script saves a copy of the input image where it draws\emph{To edit images I used Python PILLOW library. PILLOW website: \url{https://pillow.readthedocs.io/en/5.3.x/}} the \emph{bounding boxes} with their class and confidence score. \\
+Before designing and developing the inference request server application, I wrote a \emph{Python} standalone script to perform inference on an image. This script takes the image path and the network model to use as arguments, and then run inference. The result is composed by the classes of the detected objects, their \emph{bounding boxes} and their confidence score; furthermore the inference script saves a copy of the input image where it draws\footnote{To edit images I used Python PILLOW library. PILLOW website: \url{https://pillow.readthedocs.io/en/5.3.x/}.} the \emph{bounding boxes} with their class and confidence score. \\
 I used this inference script mainly when testing whether the network training was successful; since I used unlabeled data\footnote{Using dataset images for testing could give false performance, especially if overfitting has occurred.} for testing, visually checking whether the detection was accurate proved to be faster that automatizing the process, as classes and their \emph{bounding boxes} must be manually determined by a human anyway.
 %**************************************************************
 

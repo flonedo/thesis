@@ -3,10 +3,100 @@
 % !TEX root = ../tesi.tex
 
 %**************************************************************
-\chapter{Appendice A}
+\chapter{Training a YOLO v3 network}
+\label{cap:training-a-yolo-network}
 %**************************************************************
+\section{Overview}
+In the following I will explain step by step how a training script works.\\
+The training script can be run as a standalone that takes input arguments; with the aid of some auxiliary functions it takes care of initialization, loads the data and calls the training function.
+\begin{lstlisting}
+if __name__ == '__main__':
+    args = parse_args()
+    # fix seed for mxnet, numpy and python builtin random generator.
+    gutils.random.seed(args.seed)
+		# training execution context
+    if args.gpus == '':
+        ctx = mx.cpu()
+    else:
+        ctx = [mx.gpu(int(i)) for i in args.gpus.split(',') if i.strip()]
+    # loading the network
+    net_name = '_'.join(('yolo3', args.network, args.dataset))
+    args.save_prefix += net_name
+    # use sync bn if specified
+    num_sync_bn_devices = len(ctx) if args.syncbn else -1
+    if num_sync_bn_devices > 1:
+        classes = get_dataset_classes(args.synset)
+        net = get_model(net_name, classes=classes, transfer='voc', pretrained_base=False, num_sync_bn_devices=num_sync_bn_devices)
+        async_net = get_model(net_name, classes=classes, pretrained_base=False, transfer='voc')  # used by cpu worker
+    else:
+        classes = get_dataset_classes(args.synset)
+        net = get_model(net_name, classes=classes, transfer='voc', pretrained_base=False) #, num_sync_bn_devices=num_sync_bn_devices)
+        async_net = net
+    if args.resume.strip():
+        net.load_parameters(args.resume.strip())
+        async_net.load_parameters(args.resume.strip())
+    else:
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            net.initialize()
+            async_net.initialize()
+    # loading the training and validation data and evaluation metrics
+    train_dataset, val_dataset, eval_metric = get_dataset(args.train_dataset, args.valid_dataset, classes, args)
+    train_data, val_data = get_dataloader(
+        async_net, train_dataset, val_dataset, args.data_shape, args.batch_size, args.num_workers)
 
-\epigraph{Citazione}{Autore della citazione}
+    # training
+    train(net, train_data, val_data, eval_metric, ctx, args)
+\end{lstlisting}
+
+
+\section{Training}
+The training function itself is unsurprisingly the most complex part of the training script, so I will only show the actual training loop omitting initialization and parameters save. \\
+For each epoch the training loop goes through all of the training dataset. It computes a batch at a time, calculating the loss and updating the weights. After every epoch it executes validation, updates a log fine and saves the training checkpoint. \\
+When all the epochs are done the training function exports the trained model.
+
+\begin{lstlisting}
+def train(net, train_data, val_data, eval_metric, ctx, args):
+    """Training pipeline"""
+		#
+		# Some initialization
+		#
+    for epoch in range(args.start_epoch, args.epochs):
+        tic = time.time()
+        btic = time.time()
+        mx.nd.waitall()
+        net.hybridize()
+        for i, batch in enumerate(train_data):
+            batch_size = batch[0].shape[0]
+            data = gluon.utils.split_and_load(batch[0], ctx_list=[ctx], batch_axis=0)
+            fixed_targets = [gluon.utils.split_and_load(batch[it], ctx_list=[ctx], batch_axis=0) for it in range(1, 6)]
+            gt_boxes = gluon.utils.split_and_load(batch[6], ctx_list=[ctx], batch_axis=0)
+            sum_losses = []
+            obj_losses = []
+            center_losses = []
+            scale_losses = []
+            cls_losses = []
+            with autograd.record():
+                for ix, x in enumerate(data):
+                    obj_loss, center_loss, scale_loss, cls_loss = net(x, gt_boxes[ix], *[ft[ix] for ft in fixed_targets])
+                    sum_losses.append(obj_loss + center_loss + scale_loss + cls_loss)
+                    obj_losses.append(obj_loss)
+                    center_losses.append(center_loss)
+                    scale_losses.append(scale_loss)
+                    cls_losses.append(cls_loss)
+                autograd.backward(sum_losses)
+            lr_scheduler.update(i, epoch)
+            trainer.step(1) #trainer.step(batch_size)
+            obj_metrics.update(0, obj_losses)
+            center_metrics.update(0, center_losses)
+            scale_metrics.update(0, scale_losses)
+            cls_metrics.update(0, cls_losses)
+        #
+        # validation and parameter save
+        #
+\end{lstlisting}
+
+
 
 
 

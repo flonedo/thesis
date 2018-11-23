@@ -8,40 +8,46 @@
 \defcounter {refsection}{0}\relax 
 \select@language {english}
 \defcounter {refsection}{0}\relax 
-\select@language {english}
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {1.1}{\ignorespaces THRON logo.\relax }}{1}{figure.caption.13}
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Visual representation of the activation function that determines a neuron's output and the parameters that influence it.\relax }}{4}{figure.caption.14}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Schematic representation of how a network updates the weight to decrease the loss and achieve better accuracy.\relax }}{4}{figure.caption.15}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Visual representation of a convolutional layer.\relax }}{6}{figure.caption.16}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Comparison on object detection performances on Nvidia Titan X GPU. A higher mAP value means a better accuracy.\relax }}{7}{figure.caption.17}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Workflow of how a \emph {YOLO v3} network processes an image, making it pass through its layers.\relax }}{8}{figure.caption.19}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Graphic representation of \emph {intersection over union}.\relax }}{10}{figure.caption.20}
 \defcounter {refsection}{0}\relax 
 \addvspace {10\p@ }
 \defcounter {refsection}{0}\relax 
 \addvspace {10\p@ }
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Visual representation of the activation function that determines a neuron's output and the parameters that influence it.\relax }}{4}{figure.caption.13}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Structure of a \emph {*.lst} file containing dataset information.\relax }}{21}{figure.caption.36}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Schematic representation of how a network updates the weight to decrease the loss and achieve better accuracy.\relax }}{4}{figure.caption.14}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Schematic representation of my application architecture. \emph {Clients} send HTTP requests to the \emph {inference request API}, which inserts them in a \emph {jobs queue} to be processed asynchronously. The \emph {consumer} picks up batches of jobs sharded by client ID and loads the correspondent model from the model storage. The \emph {training}, who potentially resides on AWS, periodically updates the models.\relax }}{24}{figure.caption.42}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Visual representation of a convolutional layer.\relax }}{6}{figure.caption.15}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces UML describing the relationship between the server application (App class) and the implementation of its methods.\relax }}{25}{figure.caption.44}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {2.4}{\ignorespaces Comparison on object detection performances on Nvidia Titan X GPU. A higher mAP value means a better accuracy.\relax }}{7}{figure.caption.16}
-\defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {2.5}{\ignorespaces Visual representation of \emph {YOLO} network layers in its first version.\relax }}{8}{figure.caption.18}
-\defcounter {refsection}{0}\relax 
-\addvspace {10\p@ }
-\defcounter {refsection}{0}\relax 
-\addvspace {10\p@ }
-\defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Use Case - UC0: Scenario principale\relax }}{15}{figure.caption.19}
-\defcounter {refsection}{0}\relax 
-\addvspace {10\p@ }
-\defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Structure of a \emph {*.lst} file containing dataset information.\relax }}{23}{figure.caption.36}
-\defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {5.2}{\ignorespaces UML describing the relationship between the server application (App class) and the implementation of its methods.\relax }}{25}{figure.caption.42}
-\defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {5.3}{\ignorespaces UML flow chart displaying the HTTP message exchange in the application.\relax }}{28}{figure.caption.46}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces UML flow chart displaying the HTTP message exchange in the application.\relax }}{27}{figure.caption.48}
 \defcounter {refsection}{0}\relax 
 \addvspace {10\p@ }
 \defcounter {refsection}{0}\relax 
 \addvspace {10\p@ }
 \defcounter {refsection}{0}\relax 
 \addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {A.1}{\ignorespaces Relationship between artificial intelligence, machine learning and deep learning.\relax }}{39}{figure.caption.52}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {A.2}{\ignorespaces MXNet logo.\relax }}{41}{figure.caption.53}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {A.3}{\ignorespaces TensorFlow logo.\relax }}{42}{figure.caption.54}
 \defcounter {refsection}{0}\relax 
 \addvspace {10\p@ }

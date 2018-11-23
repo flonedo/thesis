@@ -11,7 +11,7 @@
 
 %**************************************************************
 \section{Overview}
-	\emph{Deep learning} is a part of the broader family of \emph{\gls{machine learning}}\textsubscript{g} methods that focuses on learning features of interest by experiencing them thought data samples. In contrast to \emph{machine learning}, which still needs the problem's layout to be described by a rather complex human-coded algorithm, a \emph{deep learning} model only needs a dataset to autonomously learn from. Thanks to the ever-growing availability of computational power and labeled data, and the relative simplicity in which a network can be trained, the deep learning approach to solve artificial intelligence problems is flourishing, bringing artificial intelligence to everyday life. \\
+	\emph{Deep learning} is a part of the broader family of \emph{\gls{machine learning}}\textsubscript{g} methods that focuses on learning features of interest by experiencing them thought data samples. In contrast to \emph{machine learning}, which still needs the problem's layout to be described by a rather complex human-coded algorithm, a \emph{deep learning} model only needs a dataset to autonomously learn from. Thanks to the ever-growing availability of computational power and labeled data, and the relative simplicity in which a network can be trained, the deep learning approach to solve \emph{artificial intelligence} problems is flourishing, bringing \emph{artificial} intelligence into everyday life. \\
 	At the core of every \emph{deep learning} model there is an artificial neural network, whose architecture is strongly inspired by the structure and functioning of a biological brain. Basically, an artificial neural network is composed by a variable number of neuron layers densely connected and stacked upon each other, hence the name \emph{deep neural networks}. The information is elaborated by traveling from layer to layer until the top is reached. \\
 		As stated, each layer is composed of computational units that work like \emph{neurons}: each \emph{neuron} receives an input, and using an activation function it produces an output that propagates to activate a \emph{neuron} in the following layer. Actually each \emph{neuron}'s output is influenced by weights and thresholds that need to be adjust to achieve the best performance.
 	 When learning, the network indeed adjusts the weights and thresholds that activate each \emph{neuron}'s function, so that it can get closer to the wanted result in an iterative manner. After each passage through the network, a \emph{\gls{loss function}}\textsubscript{g} is calculated to determine how well it is performing; then a \emph{\gls{gradient descent function}}\textsubscript{g} derives how this performance can be improved by decreasing the loss and accordingly \emph{\gls{back-propagation}}\textsubscript{g} is performed to adjusts the weights used by the neurons in their activation functions.
@@ -77,16 +77,17 @@ While both \emph{SSD} and \emph{YOLO} follow the same approach of computing the 
 	\emph{YOLO v3} is an \emph{convolutional neural network} for \emph{object detection} built on top of \emph{Darknet53}, an image classifier that uses 53 convolutional layers. With \emph{Darknet53} as its feature extractor, \emph{YOLO}  processes every image once, looking at it as a whole, hence encoding extra information about the context each class lives in. To do so it models detection as a regression
 problem, dividing the image into an S $\times$ S grid, and for each grid cell predicts B bounding boxes, confidence for those boxes, and C class probabilities; when a class-object's center falls inside a grid cell, that grid cell is responsible of detecting that object.
 	
-	\begin{figure}[htbp]
+
+\begin{figure}[htbp]
 \begin{center}
-\includegraphics[width=\textwidth]{immagini/pictures/yololayers.jpeg} 
-\caption{Visual representation of \emph{YOLO} network layers in its first version.}
+\includegraphics[width=\textwidth]{immagini/pictures/yoloworkflow.png} 
+\caption{Workflow of how a \emph{YOLO v3} network processes an image, making it pass through its layers.}
 \end{center}
 \end{figure}
-
 	
 \section{Training a network}
 	Training a \emph{convolutional neural network} is a computation-heavy task, that involves the processing of thousands of pieces of data, which in the context of computer vision is in the format of images. Therefore best way to process thousands of images is to use a GPU; using a GPU (or even clusters of GPUs) it is possible to process the images in parallel among the \emph{cores}, speeding up the process greatly. As a comparison, while training on CPU would take days even on a small dataset, on a GPU all the work would be done in just few hours.
+	
 	\subsection{Dataset}
 	The first and most important step to train a network is to create the \emph{dataset} it will learn from. Note that the quality of the dataset itself will have great influence on the final accuracy of the network. For instance you will want to feed your network examples of your objects of interest from every perspective and immerse in their context; also, when training a network to perform an \emph{object detection} task, you want your \emph{bounding boxes} to be as accurate and tight around the figures as possible. \\
 	Clearly, creating a custom dataset is a demanding job, since piece of data must be manually labeled by a human. For my project I was given a custom dataset created by one of my colleagues, containing classes relevant for one of THRON's clients. Creating a \emph{dataset} exudes the goals of my project, since on production it will be possibly performed by clients\footnote{As explained in the introduction, THRON's product is a DAM, which in this context can basically seen as a database of categorized images; with possibly minor changes to data labeling (e.g. introduction of bounding boxes for the objects of interest) and database export, image data can be easily turned into a dataset for computer vision.}. \\
@@ -107,9 +108,16 @@ After the full dataset is created, it is common practice to divide it into two s
 	\subsection{Validation}	
 	Every fixed epoch number you will want to check your network's learning progress; to do so you will perform a validation loop, which means that you will feed the network your validation \emph{dataset} and compare the network's prediction with the ground truth. There are various metrics to calculate a network's accuracy, and the one I used on my project is called \emph{\gls{mean average precision}}\textsubscript{g} (mAP). This evaluation metric uses an \emph{\gls{intersection over union}}\textsubscript{g} (IoU) threshold to determine how well the detected positives overlap with the ground truth; setting the IoU threshold higher or lower influences the wanted precision at locating objects\footnote{Note that ground truth bounding boxes are hand-drawn by a human so they already come with an error, thus setting the IoU threshold too high could prove to be useless and even counterproductive.}, and I set it to a value of 0.5.
 	
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=\textwidth]{immagini/pictures/iou_equation.png} 
+\caption{Graphic representation of \emph{intersection over union}.}
+\end{center}
+\end{figure}
+	
 	\subsection{Transfer learning}
 	Training a network from scratch is a quite demanding operation in terms of computational time and power, because the weights for each class need to be calculated from a random initialization. Luckily, it is possible to train a network to recognize new custom classes starting from pre-trained weights for other (general) classes, and this process is called \emph{transfer learning}. \\
-	 Basically when you apply transfer learning on a pre-trained network\footnote{All the major deep learning frameworks usually provide networks and weights pre-trained on popular datasets such as COCO, Pascal VOC or ImageNet.}, you teach it to recognize new classes by adjusting its weights (which have a meaning and are not random anymore) and the structure of the two layers that determine the final output. To benefit from \emph{transfer learning}
+	 Basically when you apply transfer learning on a pre-trained network\footnote{All the major deep learning frameworks usually provide networks and weights pre-trained on popular datasets such as COCO, VOC or ImageNet.}, you teach it to recognize new classes by adjusting its weights (which have a meaning and are not random anymore) and the structure of the two layers that determine the final output. To benefit from \emph{transfer learning}
 	 you want to choose a base network with weights for classes that share some features with your custom ones for example if you want to be able to detect different species of animals, a good choice would be to \emph{fine-tune} a network trained on a datasets that already contains cats and dogs.
 	
 	\subsection{Hyperparameters}

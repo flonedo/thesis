@@ -4,7 +4,7 @@
 
 %**************************************************************
 \chapter{Internship description}
-\label{chap:internship-description}
+\label{cap:internship}
 %**************************************************************
 
 \intro{My project at THRON S.p.A. was to develop a production-ready application for \emph{object detection} using \emph{YOLO v3}. I was given the responsibility to choose the framework to use, and I coded both the training and inference parts of the application.}\\
@@ -15,9 +15,11 @@ The goal of my project was to develop a production-ready \emph{object detection}
 %**************************************************************
 \section{Risk analysis}
 
-Every project comes with its risks. Since deep learning is a relatively new field, my project was at high risk from the beginning.\\
+Every project comes with its risks. Since deep learning is a relatively new field, the probability my project would incur into some issues during development was high.\\
 
 \begin{center}
+\begin{table}
+\caption{Risk analysis.}
     \begin{tabular}{ | p{5cm} | p{5cm} | p{2cm} |}
     \hline
     \textbf{Decription} & \textbf{Solution} & \textbf{Occurrence} \\ \hline
@@ -26,7 +28,9 @@ Every project comes with its risks. Since deep learning is a relatively new fiel
     \textbf{Hardware} \\ Deep learning is a demanding technology that requires a lot of computational power. Specifically, it is suggested to execute training on a \emph{\gls{CUDA}}\textsubscript{g} GPU since it is much faster, but I didn't have one. Training on CPU, on the other hand, is indeed possible, but it requires fairly new hardware to run at all, which, during my first week, I didn't have. & Before I was assigned a newer CPU I got to work on a remote AWS machine via SSH. This machine provided a GPU so I could test example algorithms. When given a newer CPU I had to train my network on that, which required a couple of days and thus prevented me from tuning the hyperparameters. & High \\ \hline
    \textbf{Python} \\ Deep learning frameworks are written almost exclusively in Python. With no prior experience, writing a Python application could prove to be troublesome. & None of my coworkers was a Python expert, but they always helped me to find good libraries and frameworks to use. & Medium \\ \hline
    \end{tabular}
+\end{table}
 \end{center}
+
 
 
 %**************************************************************
@@ -63,6 +67,8 @@ Due to the nature of the project, whose purpose was to explore a new technology 
 Schedule is organized to follow the initial requirements; however, as already explained, these changed along the way influencing the schedule as well.
 
 \begin{center}
+\begin{table}
+    \caption{Activities time schedule.}
     \begin{tabular}{ | p{3cm} | p{9cm} |}
     \hline
     \textbf{Assigned hours} & \textbf{Activity} \\ \hline
@@ -75,4 +81,9 @@ Schedule is organized to follow the initial requirements; however, as already ex
     80 & Front end development \\ \hline
 		16 & Documentation \\ \hline
    \end{tabular}
+\end{table}
 \end{center}
+
+
+\section{Future development}
+At the end of my internship, my co-workers will continue the project of developing a custom \emph{object detection} application to integrate in Thron. Both my successes and failures will help in the following phase, as in such an innovative field a process experimentation through trial-and-error is at some point inevitable.
